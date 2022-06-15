@@ -4,7 +4,7 @@
 - name: install packages
   apt: name={{ item }} state=present
   with_items:
-    - dcoker.io
+    - docker.io
     - python-pip
 - name: Install docker-py python package.
   pip:
