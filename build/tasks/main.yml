@@ -1,2 +1,28 @@
 ---
 # tasks file for build
+
+- name: install packages
+  apt: name={{ item }} state=present
+  with_items:
+    - dcoker.io
+    - python-pip
+- name: Install docker-py python package.
+  pip:
+    name: docker-py
+
+- name: Synchronization of src on the control machine to dest on the remote hosts
+  synchronize:
+    src: Dockerfile
+    dest: {{ path_to_dockerfile }}/Dockerfile
+
+- name: Log into DockerHub
+  docker_login:
+    username:
+    password:
+    email:
+
+- name: Build image and with build args
+  docker_image:
+    name: ivangelion/build_and_prod:v2
+    path: {{ path_to_dockerfile }}
+    push: yes
